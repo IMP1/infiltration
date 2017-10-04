@@ -21,7 +21,6 @@ function MoveAction:load()
     self.available_moves = self:getCharacterMoves()
 end
 
-
 --------------------------
 -- Accessor Methods --
 --------------------------
@@ -80,13 +79,19 @@ end
 
 function MoveAction:keyPressed(key)
     if key == "escape" then
-        self.scene:cancelCurrentAction()
+        self:close()
     end
     -- @TODO: fill out
 end
 
 function MoveAction:mouseReleased(mx, my, key)
-    
+    local wx, wy = self.scene.camera:toWorldPosition(mx, my)
+    local i = math.floor(wx / 32) + 1
+    local j = math.floor(wy / 32) + 1
+    print(i, j)
+    if self.available_moves[j] and self.available_moves[j][i] and self.available_moves[j][i] > 0 then
+        print(self.available_moves[j][i])
+    end
     -- @TODO: fill out
 end
 
@@ -106,7 +111,9 @@ function MoveAction:drawWorld()
     love.graphics.setColor(0, 0, 255, 32)
     for j, row in pairs(self.available_moves) do
         for i, cost in pairs(row) do
-            love.graphics.rectangle("fill", (i-1) * 32, (j-1) * 32, 32, 32)
+            local x, y = (i-1) * 32, (j-1) * 32
+            love.graphics.rectangle("fill", x, y, 32, 32)
+            love.graphics.print(tostring(cost), x, y) -- @TODO: remove this
         end
     end
 end
