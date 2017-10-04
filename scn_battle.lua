@@ -160,16 +160,18 @@ function Scene:mouseReleased(mx, my, key)
                 self:selectCharacter(char)
             end
             -- character actions
-            local x, y = char:getPixelPosition()
-            local w, h = 32, 32
-            x = x - 36
-            y = y + 24
-            if wx >= x and wx <= x + w and wy >= y and wy <= y + h then
-                char:toggleVisibility()
-            end
-            x = x + 36 + 4
-            if wx >= x and wx <= x + w and wy >= y and wy <= y + h then
-                self:openCharacterInformation(char)
+            if self.selected_character == char then
+                local x, y = char:getPixelPosition()
+                local w, h = 32, 32
+                x = x - 36
+                y = y + 24
+                if wx >= x and wx <= x + w and wy >= y and wy <= y + h then
+                    char:toggleVisibility()
+                end
+                x = x + 36 + 4
+                if wx >= x and wx <= x + w and wy >= y and wy <= y + h then
+                    self:openCharacterInformation(char)
+                end
             end
             -- characters on HUD
             local x = 12
